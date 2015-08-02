@@ -6,17 +6,29 @@
 </head>
 
 <body>
-    <form data-bind="submit: addTask">
-    <h1>Add new TODO</h1>
-    <input type="text" data-bind="value: newTaskText" placeholder="What needs to be done?">
-    <button type="submit">Add</button>
-    </form>
-    <ul data-bind="foreach: tasks">
+    <style>
+    ul  {
+        list-style: none;
+        padding-left: 5px;
+    }
+    ul li {
+        margin: 7px 0;
+    }
+    </style>
+    <h3>Tasks</h3>
+
+    Add new TODO: <input type="text" data-bind="value: newTaskText" placeholder="What needs to be done?">
+    <button data-bind="click: addTask">Add</button>
+    <ul data-bind="foreach: filter, visible: tasks().length > 0">
         <li>
-          <span data-bind="text: title"></span>
+          <input type="checkbox" data-bind="checked: isDone" />
+          <input data-bind="value: title, disable: isDone" />
           <button data-bind="click: $parent.removeTask">Remove</button>
         </li>
     </ul>
+    <hr>
+    <input type="text" data-bind="value: search, valueUpdate: 'afterkeydown'" placeholder="Filter TODOs">
+    <p data-bind="visible: tasks().length > 0">You have <strong data-bind="text: incompleteTasks().length"></strong> thing(s) to do.</p>
     <script src="knockout.js"></script>
     <script src="app.js"></script>
 </body>
